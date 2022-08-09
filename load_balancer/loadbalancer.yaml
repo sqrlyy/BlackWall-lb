@@ -1,0 +1,9 @@
+services:
+  - service: target_service
+    servers:
+      - target1:8081
+      - target2:8082
+      - target3:8083
+      - target4:8084
+      - target5:8086
+

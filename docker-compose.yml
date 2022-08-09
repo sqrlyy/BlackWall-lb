@@ -1,0 +1,84 @@
+version: '3'
+
+services:
+  loadbalancer:
+    build:
+      context: .
+      dockerfile: load_balancer/Dockerfile
+    environment:
+      - APP=loadbalancer
+    ports:
+      - "5005:5000"
+    networks:
+      - default
+    command: python loadbalancer.py
+
+  target1:
+    build:
+      context: .
+      dockerfile: target_app/Dockerfile
+    environment:
+      - APP=target
+      - ENDPOINT=localhost:8081
+      - PORT=8081
+    ports:
+      - "8081:5000"
+    networks:
+      - default
+    command: python app/app.py
+
+  target2:
+    build:
+      context: .
+      dockerfile: target_app/Dockerfile
+    environment:
+      - APP=target
+      - ENDPOINT=localhost:8082
+      - PORT=8082
+    ports:
+      - "8082:5001"
+    networks:
+      - default
+    command: python app/app.py
+
+  target3:
+    build:
+      context: .
+      dockerfile: target_app/Dockerfile
+    environment:
+      - APP=target
+      - ENDPOINT=localhost:8083
+      - PORT=8083
+    ports:
+      - "8083:5001"
+    command: python app/app.py
+
+  target4:
+    build:
+      context: .
+      dockerfile: target_app/Dockerfile
+    environment:
+      - APP=target
+      - ENDPOINT=localhost:8084
+      - PORT=8084
+    ports:
+      - "8084:5001"
+    command: python app/app.py
+
+  target5:
+    build:
+      context: .
+      dockerfile: target_app/Dockerfile
+    environment:
+      - APP=target
+      - ENDPOINT=localhost:8086
+      - PORT=8086
+    ports:
+      - "8086:5001"
+    networks:
+      - default
+    command: python app/app.py
+
+networks:
+  default:
+    driver: bridge
